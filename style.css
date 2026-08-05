@@ -1,0 +1,207 @@
+:root {
+    --bg-color: #dcd4c7;
+    --text-color: #1a1a1a;
+    --accent-green: #4b6b54;
+    --seat-color: #cc2929;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: auto;
+}
+
+header {
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 2px;
+    line-height: 1.1;
+}
+
+h1 span {
+    font-style: italic;
+    font-size: 2.4rem;
+    display: block;
+    margin: 3px 0;
+}
+
+.menu-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.menu-btn {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 10px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.menu-btn:hover {
+    background-color: #444;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 45px;
+    left: 0;
+    background-color: #f4f0eb;
+    min-width: 280px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+    padding: 15px;
+    border: 1px solid #c8bfc0;
+}
+
+.dropdown-content.show {
+    display: block;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #b5aba0;
+    background: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.suggestions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.suggestions-list li {
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #e2dbd2;
+    transition: background 0.2s;
+}
+
+.suggestions-list li:hover {
+    background-color: #e2dbd2;
+}
+
+/* Zwiększony kontener główny dla lepszego odstępu */
+.room {
+    position: relative;
+    width: 1050px;
+    height: 620px;
+    margin-top: 10px;
+}
+
+/* Stoły - czarne ramki bez wypełnienia */
+.main-table {
+    position: absolute;
+    border: 3px solid #1a1a1a;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    z-index: 2;
+}
+
+.table-vert {
+    position: absolute;
+    border: 3px solid #1a1a1a;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 15px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+/* Kółka (miejsca siedzące) */
+.seat {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: var(--seat-color);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 3;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: translate(-50%, -50%);
+}
+
+.seat:hover {
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+.seat.highlight {
+    background-color: var(--accent-green) !important;
+    transform: translate(-50%, -50%) scale(1.3);
+    box-shadow: 0 0 12px rgba(75, 107, 84, 0.8);
+}
+
+/* Dymek z imieniem i nazwiskiem */
+.seat::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: 38px;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    background: #1a1a1a;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    border-radius: 3px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.seat:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}

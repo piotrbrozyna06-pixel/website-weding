@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monika oraz Jakub - Plan Stołów</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Menu rozwijane z wyszukiwarką -->
+    <div class="menu-container">
+        <button class="menu-btn" onclick="toggleMenu()">SZUKAJ GOŚCIA</button>
+        <div id="searchDropdown" class="dropdown-content">
+            <input type="text" id="searchInput" class="search-input" placeholder="Wpisz imię lub nazwisko..." oninput="filterGuests()">
+            <ul id="suggestionsList" class="suggestions-list"></ul>
+        </div>
+    </div>
+
+    <!-- Nagłówek strony -->
+    <header>
+        <h1>Monika <span>oraz</span> Jakub</h1>
+    </header>
+
+    <!-- Plan stołów i gości -->
+    <div class="room" id="roomContainer">
+        <!-- Stoły zwiększonymi odstępami -->
+        <div class="table-rect main-table" style="top: 80px; left: 60px; width: 930px; height: 80px;">Stół Prezydialny</div>
+        
+        <div class="table-vert" style="left: 80px; top: 230px; width: 70px; height: 330px;">I</div>
+        <div class="table-vert" style="left: 260px; top: 230px; width: 70px; height: 330px;">II</div>
+        <div class="table-vert" style="left: 440px; top: 230px; width: 70px; height: 330px;">III</div>
+        <div class="table-vert" style="left: 620px; top: 230px; width: 70px; height: 330px;">IV</div>
+        <div class="table-vert" style="left: 800px; top: 230px; width: 70px; height: 330px;">V</div>
+
+        <!-- Kontener na kółka siedzeń -->
+        <div id="seatsContainer"></div>
+    </div>
+
+    <script>
+        const guestsData = [];
+        let globalSeatNumber = 1;
+
+        function addGuest(tableName, side) {
+            guestsData.push({
+                id: globalSeatNumber,
+                name: `Gość ${globalSeatNumber} (${tableName})`,
+                tableName: tableName,
+                seatNum: globalSeatNumber,
+                side: side
+            });
+            globalSeatNumber++;
+        }
+
+        // 1. Stół Prezydialny: 10 od góry, 2 po lewej, 2 po prawej (razem 14)
+        for(let i=1; i<=10; i++) addGuest("Stół Prezydialny", "top");
+        for(let i=1; i<=2; i++) addGuest("Stół Prezydialny", "left");
+        for(let i=1; i<=2; i++) addGuest("Stół Prezydialny", "right");
+
+        // 2. Stół I: 17 siedzeń
+        for(let i=1; i<=17; i++) addGuest("Stół I", i <= 9 ? "left" : "right");
+
+        // 3. Stół II: 13 siedzeń
+        for(let i=1; i<=13; i++) addGuest("Stół II", i <= 7 ? "left" : "right");
+
+        // 4. Stół III: 8 siedzeń
+        for(let i=1; i<=8; i++) addGuest("Stół III", i <= 4 ? "left" : "right");
+
+        // 5. Stół IV: 8 siedzeń
+        for(let i=1; i<=8; i++) addGuest("Stół IV", i <= 4 ? "left" : "right");
+
+        // 6. Stół V: 12 siedzeń
+        for(let i=1; i<=12; i++) addGuest("Stół V", i <= 6 ? "left" : "right");
+
+        function renderSeats() {
+            const container = document.getElementById("seatsContainer");
+            container.innerHTML = "";
+
+            // Liczniki do pozycjonowania wzdłuż stołów pionowych
+            let tableCounters = {
+                "Stół I": { left: 0, right: 0 },
+                "Stół II": { left: 0, right: 0 },
+                "Stół III": { left: 0, right: 0 },
+                "Stół IV": { left: 0, right: 0 },
+                "Stół V": { left: 0, right: 0 }
+            };
+
+            let presTopCount = 0;
+            let presLeftCount = 0;
+            let presRightCount = 0;
+
+            guestsData.forEach(g => {
+                const seat = document.createElement("div");
+                seat.className = "seat";
+                seat.dataset.id = g.id;
+                seat.dataset.name = g.name;
+                seat.innerText = g.seatNum;
+                seat.onclick = () => selectSeat(g.id);
+
+                let x = 0, y = 0;
+
+                if (g.tableName === "Stół Prezydialny") {
+                    if (g.side === "top") {
+                        presTopCount++;
+                        const step = 910 / 11;
+                        x = 70 + (presTopCount * step);
+                        y = 35;
+                    } else if (g.side === "left") {
+                        presLeftCount++;
+                        x = 20;
+                        y = 95 + (presLeftCount === 1 ? 20 : 60);
+                    } else if (g.side === "right") {
+                        presRightCount++;
+                        x = 1030;
+                        y = 95 + (presRightCount === 1 ? 20 : 60);
+                    }
+                } else {
+                    let tableLeft = 80;
+                    if (g.tableName === "Stół II") tableLeft = 260;
+                    if (g.tableName === "Stół III") tableLeft = 440;
+                    if (g.tableName === "Stół IV") tableLeft = 620;
+                    if (g.tableName === "Stół V") tableLeft = 800;
+
+                    const countLeft = g.tableName === "Stół I" ? 9 : (g.tableName === "Stół II" ? 7 : (g.tableName === "Stół III" ? 4 : (g.tableName === "Stół IV" ? 4 : 6)));
+                    const countRight = g.tableName === "Stół I" ? 8 : (g.tableName === "Stół II" ? 6 : (g.tableName === "Stół III" ? 4 : (g.tableName === "Stół IV" ? 4 : 6)));
+
+                    if (g.side === "left") {
+                        tableCounters[g.tableName].left++;
+                        const idx = tableCounters[g.tableName].left;
+                        x = tableLeft - 40;
+                        const step = 310 / (countLeft + 1);
+                        y = 240 + (idx * step);
+                    } else {
+                        tableCounters[g.tableName].right++;
+                        const idx = tableCounters[g.tableName].right;
+                        x = tableLeft + 110;
+                        const step = 310 / (countRight + 1);
+                        y = 240 + (idx * step);
+                    }
+                }
+
+                seat.style.left = `${x}px`;
+                seat.style.top = `${y}px`;
+                container.appendChild(seat);
+            });
+        }
+
+        function toggleMenu() {
+            document.getElementById("searchDropdown").classList.toggle("show");
+            if(document.getElementById("searchDropdown").classList.contains("show")) {
+                document.getElementById("searchInput").focus();
+            }
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-btn') && !event.target.closest('.dropdown-content')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function filterGuests() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const listContainer = document.getElementById("suggestionsList");
+            listContainer.innerHTML = "";
+
+            if (input.trim() === "") return;
+
+            const filtered = guestsData.filter(g => g.name.toLowerCase().includes(input));
+
+            filtered.forEach(guest => {
+                const li = document.createElement("li");
+                li.textContent = `${guest.name} (${guest.tableName})`;
+                li.onclick = function() {
+                    document.getElementById("searchInput").value = guest.name;
+                    highlightSeat(guest.id);
+                    listContainer.innerHTML = "";
+                    document.getElementById("searchDropdown").classList.remove('show');
+                };
+                listContainer.appendChild(li);
+            });
+        }
+
+        function highlightSeat(id) {
+            const seats = document.querySelectorAll('.seat');
+            seats.forEach(s => s.classList.remove('highlight'));
+
+            const targetSeat = document.querySelector(`.seat[data-id="${id}"]`);
+            if (targetSeat) {
+                targetSeat.classList.add('highlight');
+                targetSeat.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                setTimeout(() => {
+                    targetSeat.classList.remove('highlight');
+                }, 4000);
+            }
+        }
+
+        function selectSeat(id) {
+            highlightSeat(id);
+        }
+
+        window.onload = renderSeats;
+    </script>
+</body>
+</html>
