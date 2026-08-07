@@ -10,17 +10,18 @@
 </head>  
 <body>  
 
-    <!-- Menu rozwijane z wyszukiwarką -->  
-    <div class="menu-container">  
-        <button class="menu-btn" onclick="toggleMenu()">🔍 SZUKAJ GOŚCIA</button>  
-        <div id="searchDropdown" class="dropdown-content">  
-            <input type="text" id="searchInput" class="search-input" placeholder="Wpisz imię lub nazwisko..." oninput="filterGuests()">  
-            <ul id="suggestionsList" class="suggestions-list"></ul>  
-        </div>  
-    </div>  
-
-    <!-- Główny kontener zapewniający spójne wyśrodkowanie -->
+    <!-- Główny kontener całej planszy (1700px) -->
     <div class="page-wrapper">
+
+        <!-- Menu rozwijane z wyszukiwarką (przypięte do planszy) -->  
+        <div class="menu-container">  
+            <button class="menu-btn" onclick="toggleMenu()">🔍 SZUKAJ GOŚCIA</button>  
+            <div id="searchDropdown" class="dropdown-content">  
+                <input type="text" id="searchInput" class="search-input" placeholder="Wpisz imię lub nazwisko..." oninput="filterGuests()">  
+                <ul id="suggestionsList" class="suggestions-list"></ul>  
+            </div>  
+        </div>  
+
         <!-- Nagłówek strony -->  
         <header>  
             <h1>Monika <span>oraz</span> Jakub</h1>  
@@ -341,16 +342,11 @@
             });  
         }  
 
-        // Funkcja automatycznie centrująca widok na urządzeniach mobilnych
+        // Wyśrodkowanie widoku mobilnego na środkowym Stole III
         function centerOnMobile() {
-            const pageWrapper = document.querySelector('.page-wrapper');
-            if (pageWrapper) {
-                const totalWidth = pageWrapper.scrollWidth || 1700;
-                const windowWidth = window.innerWidth;
-                if (windowWidth < totalWidth) {
-                    const scrollTarget = (totalWidth - windowWidth) / 2;
-                    window.scrollTo({ left: scrollTarget, top: 0, behavior: 'instant' });
-                }
+            const tableIII = document.getElementById("tableIII");
+            if (tableIII) {
+                tableIII.scrollIntoView({ block: "start", inline: "center" });
             }
         }
 
@@ -416,10 +412,8 @@
 
         window.onload = function() {
             renderSeats();
-            setTimeout(centerOnMobile, 50);
+            setTimeout(centerOnMobile, 100);
         };
-
-        window.onresize = centerOnMobile;
     </script>  
 </body>  
 </html>
