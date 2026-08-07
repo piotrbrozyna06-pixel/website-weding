@@ -1,212 +1,414 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monika oraz Jakub - Plan Stołów</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<!DOCTYPE html> 
+<html lang="pl"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Monika oraz Jakub - Plan Stołów</title> 
 
-    <!-- Menu rozwijane z wyszukiwarką -->
-    <div class="menu-container">
-        <button class="menu-btn" onclick="toggleMenu()">SZUKAJ GOŚCIA</button>
-        <div id="searchDropdown" class="dropdown-content">
-            <input type="text" id="searchInput" class="search-input" placeholder="Wpisz imię lub nazwisko..." oninput="filterGuests()">
-            <ul id="suggestionsList" class="suggestions-list"></ul>
-        </div>
-    </div>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="style.css"> 
+</head> 
+<body> 
 
-    <!-- Nagłówek strony -->
-    <header>
-        <h1>Monika <span>oraz</span> Jakub</h1>
-    </header>
+    <!-- Menu rozwijane z wyszukiwarką --> 
+    <div class="menu-container"> 
+        <button class="menu-btn" onclick="toggleMenu()">SZUKAJ GOŚCIA</button> 
+        <div id="searchDropdown" class="dropdown-content"> 
+            <input type="text" id="searchInput" class="search-input" placeholder="Wpisz imię lub nazwisko..." oninput="filterGuests()"> 
+            <ul id="suggestionsList" class="suggestions-list"></ul> 
+        </div> 
+    </div> 
 
-    <!-- Plan stołów i gości -->
-    <div class="room" id="roomContainer">
-        <!-- Stoły zwiększonymi odstępami -->
-        <div class="table-rect main-table" style="top: 80px; left: 60px; width: 930px; height: 80px;">Stół Prezydialny</div>
-        
-        <div class="table-vert" style="left: 80px; top: 230px; width: 70px; height: 330px;">I</div>
-        <div class="table-vert" style="left: 260px; top: 230px; width: 70px; height: 330px;">II</div>
-        <div class="table-vert" style="left: 440px; top: 230px; width: 70px; height: 330px;">III</div>
-        <div class="table-vert" style="left: 620px; top: 230px; width: 70px; height: 330px;">IV</div>
-        <div class="table-vert" style="left: 800px; top: 230px; width: 70px; height: 330px;">V</div>
+    <!-- Nagłówek strony --> 
+    <header> 
+        <h1>Monika <span>oraz</span> Jakub</h1> 
+    </header> 
 
-        <!-- Kontener na kółka siedzeń -->
-        <div id="seatsContainer"></div>
-    </div>
+    <!-- Plan stołów i gości --> 
+    <div class="room" id="roomContainer" style="height: 1200px; width: 1700px; margin: 0 auto; position: relative;"> 
+        <!-- Stół prezydialny (szerokość dopasowywana dynamicznie) --> 
+        <div class="table-rect main-table" id="mainTable" style="top: 80px; height: 80px; z-index: 1;">Stół Prezydialny</div> 
+         
+        <!-- Stoły I-V --> 
+        <div class="table-vert" id="tableI" style="width: 70px;">I</div> 
+        <div class="table-vert" id="tableII" style="width: 70px; border-top: none; border-top-left-radius: 0; border-top-right-radius: 0; z-index: 2;">II</div> 
+        <div class="table-vert" id="tableIII" style="width: 70px; border-top: none; border-top-left-radius: 0; border-top-right-radius: 0; z-index: 2;">III</div> 
+        <div class="table-vert" id="tableIV" style="width: 70px; border-top: none; border-top-left-radius: 0; border-top-right-radius: 0; z-index: 2;">IV</div> 
+        <div class="table-vert" id="tableV" style="width: 70px;">V</div> 
 
-    <script>
-        const guestsData = [];
-        let globalSeatNumber = 1;
+        <div id="seatsContainer"></div> 
+    </div> 
 
-        function addGuest(tableName, side) {
-            guestsData.push({
-                id: globalSeatNumber,
-                name: `Gość ${globalSeatNumber} (${tableName})`,
-                tableName: tableName,
-                seatNum: globalSeatNumber,
-                side: side
+    <script> 
+        const guestsData = [ 
+            // --- STÓŁ PREZYDIALNY (14 miejsc) --- 
+            { id: 1, name: "Gość 1", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 2, name: "Gość 2", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 3, name: "Gość 3", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 4, name: "Gość 4", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 5, name: "Gość 5", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 6, name: "Gość 6", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 7, name: "Gość 7", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 8, name: "Gość 8", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 9, name: "Gość 9", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 10, name: "Gość 10", tableName: "Stół Prezydialny", side: "top" }, 
+            { id: 11, name: "Gość 11", tableName: "Stół Prezydialny", side: "left" }, 
+            { id: 12, name: "Gość 12", tableName: "Stół Prezydialny", side: "left" }, 
+            { id: 13, name: "Gość 13", tableName: "Stół Prezydialny", side: "right" }, 
+            { id: 14, name: "Gość 14", tableName: "Stół Prezydialny", side: "right" }, 
+
+            // --- STÓŁ I (17 lewa, 17 prawa = 34 osoby) --- 
+            { id: 15, name: "Łukasz Lotto", tableName: "Stół I", side: "left" }, 
+            { id: 16, name: "Hania Lotto", tableName: "Stół I", side: "left" }, 
+            { id: 17, name: "Ania Lotto", tableName: "Stół I", side: "left" }, 
+            { id: 18, name: "Mama Panny Młodej", tableName: "Stół I", side: "left" }, 
+            { id: 19, name: "Tata Panny Młodej", tableName: "Stół I", side: "left" }, 
+            { id: 20, name: "Marcin Ochłanek", tableName: "Stół I", side: "left" }, 
+            { id: 21, name: "Paweł Ochłanek", tableName: "Stół I", side: "left" }, 
+            { id: 22, name: "Wojciech Ochłanek", tableName: "Stół I", side: "left" }, 
+            { id: 23, name: "Ewa Adamczewska-Ochłanek", tableName: "Stół I", side: "left" }, 
+            { id: 24, name: "Emilia Brożyna", tableName: "Stół I", side: "left" }, 
+            { id: 25, name: "Aleksandra Brożyna", tableName: "Stół I", side: "left" }, 
+            { id: 26, name: "Jan Brożyna", tableName: "Stół I", side: "left" }, 
+            { id: 27, name: "Grzegorz Brożyna", tableName: "Stół I", side: "left" }, 
+            { id: 28, name: "Babcia Panny Młodej", tableName: "Stół I", side: "left" }, 
+            { id: 29, name: "Babcia Panny Młodej", tableName: "Stół I", side: "left" }, 
+            { id: 30, name: "Dziadek Panny Młodej", tableName: "Stół I", side: "left" }, 
+            { id: 31, name: "Jerzy Adamczewski", tableName: "Stół I", side: "left" }, 
+             
+            { id: 32, name: "Robert Łuszczyński", tableName: "Stół I", side: "right" }, 
+            { id: 33, name: "Edyta Łuszczyńska", tableName: "Stół I", side: "right" }, 
+            { id: 34, name: "Jolanta Kozak", tableName: "Stół I", side: "right" }, 
+            { id: 35, name: "Michał Kramarz", tableName: "Stół I", side: "right" }, 
+            { id: 36, name: "Paweł Tkaczyk", tableName: "Stół I", side: "right" }, 
+            { id: 37, name: "Beata Dudek", tableName: "Stół I", side: "right" }, 
+            { id: 38, name: "Beata Zieleniewicz", tableName: "Stół I", side: "right" }, 
+            { id: 39, name: "Tomasz Zieleniewicz", tableName: "Stół I", side: "right" }, 
+            { id: 40, name: "Maciej Żurawski", tableName: "Stół I", side: "right" }, 
+            { id: 41, name: "Joanna Żurawska", tableName: "Stół I", side: "right" }, 
+            { id: 42, name: "Sabina Żurawska", tableName: "Stół I", side: "right" }, 
+            { id: 43, name: "Amelia Żurawska", tableName: "Stół I", side: "right" }, 
+            { id: 44, name: "Igor Gołąbek", tableName: "Stół I", side: "right" }, 
+            { id: 45, name: "Nikola Gołąbek", tableName: "Stół I", side: "right" }, 
+            { id: 46, name: "Zuzanna Szczepańska", tableName: "Stół I", side: "right" }, 
+            { id: 47, name: "Arkadiusz Szczepański", tableName: "Stół I", side: "right" }, 
+            { id: 48, name: "Patryk Adamczewski", tableName: "Stół I", side: "right" }, 
+
+            // --- STÓŁ II (12 lewa, 12 prawa = 24 osoby) --- 
+            { id: 49, name: "Gość 49", tableName: "Stół II", side: "left" }, 
+            { id: 50, name: "Gość 50", tableName: "Stół II", side: "left" }, 
+            { id: 51, name: "Gość 51", tableName: "Stół II", side: "left" }, 
+            { id: 52, name: "Gość 52", tableName: "Stół II", side: "left" }, 
+            { id: 53, name: "Gość 53", tableName: "Stół II", side: "left" }, 
+            { id: 54, name: "Gość 54", tableName: "Stół II", side: "left" }, 
+            { id: 55, name: "Gość 55", tableName: "Stół II", side: "left" }, 
+            { id: 56, name: "Gość 56", tableName: "Stół II", side: "left" }, 
+            { id: 57, name: "Gość 57", tableName: "Stół II", side: "left" }, 
+            { id: 58, name: "Gość 58", tableName: "Stół II", side: "left" }, 
+            { id: 59, name: "Gość 59", tableName: "Stół II", side: "left" }, 
+            { id: 60, name: "Gość 60", tableName: "Stół II", side: "left" }, 
+            { id: 61, name: "Gość 61", tableName: "Stół II", side: "right" }, 
+            { id: 62, name: "Gość 62", tableName: "Stół II", side: "right" }, 
+            { id: 63, name: "Gość 63", tableName: "Stół II", side: "right" }, 
+            { id: 64, name: "Gość 64", tableName: "Stół II", side: "right" }, 
+            { id: 65, name: "Gość 65", tableName: "Stół II", side: "right" }, 
+            { id: 66, name: "Gość 66", tableName: "Stół II", side: "right" }, 
+            { id: 67, name: "Gość 67", tableName: "Stół II", side: "right" }, 
+            { id: 68, name: "Gość 68", tableName: "Stół II", side: "right" }, 
+            { id: 69, name: "Gość 69", tableName: "Stół II", side: "right" }, 
+            { id: 70, name: "Gość 70", tableName: "Stół II", side: "right" }, 
+            { id: 71, name: "Gość 71", tableName: "Stół II", side: "right" }, 
+            { id: 72, name: "Gość 72", tableName: "Stół II", side: "right" }, 
+
+            // --- STÓŁ III (8 lewa, 8 prawa = 16 osób) --- 
+            { id: 73, name: "Gość 73", tableName: "Stół III", side: "left" }, 
+            { id: 74, name: "Gość 74", tableName: "Stół III", side: "left" }, 
+            { id: 75, name: "Gość 75", tableName: "Stół III", side: "left" }, 
+            { id: 76, name: "Gość 76", tableName: "Stół III", side: "left" }, 
+            { id: 77, name: "Gość 77", tableName: "Stół III", side: "left" }, 
+            { id: 78, name: "Gość 78", tableName: "Stół III", side: "left" }, 
+            { id: 79, name: "Gość 79", tableName: "Stół III", side: "left" }, 
+            { id: 80, name: "Gość 80", tableName: "Stół III", side: "left" }, 
+            { id: 81, name: "Gość 81", tableName: "Stół III", side: "right" }, 
+            { id: 82, name: "Gość 82", tableName: "Stół III", side: "right" }, 
+            { id: 83, name: "Gość 83", tableName: "Stół III", side: "right" }, 
+            { id: 84, name: "Gość 84", tableName: "Stół III", side: "right" }, 
+            { id: 85, name: "Gość 85", tableName: "Stół III", side: "right" }, 
+            { id: 86, name: "Gość 86", tableName: "Stół III", side: "right" }, 
+            { id: 87, name: "Gość 87", tableName: "Stół III", side: "right" }, 
+            { id: 88, name: "Gość 88", tableName: "Stół III", side: "right" }, 
+
+            // --- STÓŁ IV (8 lewa, 8 prawa = 16 osób) --- 
+            { id: 89, name: "Gość 89", tableName: "Stół IV", side: "left" }, 
+            { id: 90, name: "Gość 90", tableName: "Stół IV", side: "left" }, 
+            { id: 91, name: "Gość 91", tableName: "Stół IV", side: "left" }, 
+            { id: 92, name: "Gość 92", tableName: "Stół IV", side: "left" }, 
+            { id: 93, name: "Gość 93", tableName: "Stół IV", side: "left" }, 
+            { id: 94, name: "Gość 94", tableName: "Stół IV", side: "left" }, 
+            { id: 95, name: "Gość 95", tableName: "Stół IV", side: "left" }, 
+            { id: 96, name: "Gość 96", tableName: "Stół IV", side: "left" }, 
+            { id: 97, name: "Gość 97", tableName: "Stół IV", side: "right" }, 
+            { id: 98, name: "Gość 98", tableName: "Stół IV", side: "right" }, 
+            { id: 99, name: "Gość 99", tableName: "Stół IV", side: "right" }, 
+            { id: 100, name: "Gość 100", tableName: "Stół IV", side: "right" }, 
+            { id: 101, name: "Gość 101", tableName: "Stół IV", side: "right" }, 
+            { id: 102, name: "Gość 102", tableName: "Stół IV", side: "right" }, 
+            { id: 103, name: "Gość 103", tableName: "Stół IV", side: "right" }, 
+            { id: 104, name: "Gość 104", tableName: "Stół IV", side: "right" }, 
+
+            // --- STÓŁ V (12 lewa, 12 prawa = 24 osoby) --- 
+            { id: 105, name: "Gość 105", tableName: "Stół V", side: "left" }, 
+            { id: 106, name: "Gość 106", tableName: "Stół V", side: "left" }, 
+            { id: 107, name: "Gość 107", tableName: "Stół V", side: "left" }, 
+            { id: 108, name: "Gość 108", tableName: "Stół V", side: "left" }, 
+            { id: 109, name: "Gość 109", tableName: "Stół V", side: "left" }, 
+            { id: 110, name: "Gość 110", tableName: "Stół V", side: "left" }, 
+            { id: 111, name: "Gość 111", tableName: "Stół V", side: "left" }, 
+            { id: 112, name: "Gość 112", tableName: "Stół V", side: "left" }, 
+            { id: 113, name: "Gość 113", tableName: "Stół V", side: "left" }, 
+            { id: 114, name: "Gość 114", tableName: "Stół V", side: "left" }, 
+            { id: 115, name: "Gość 115", tableName: "Stół V", side: "left" }, 
+            { id: 116, name: "Gość 116", tableName: "Stół V", side: "left" }, 
+            { id: 117, name: "Gość 117", tableName: "Stół V", side: "right" }, 
+            { id: 118, name: "Gość 118", tableName: "Stół V", side: "right" }, 
+            { id: 119, name: "Gość 119", tableName: "Stół V", side: "right" }, 
+            { id: 120, name: "Gość 120", tableName: "Stół V", side: "right" }, 
+            { id: 121, name: "Gość 121", tableName: "Stół V", side: "right" }, 
+            { id: 122, name: "Gość 122", tableName: "Stół V", side: "right" }, 
+            { id: 123, name: "Gość 123", tableName: "Stół V", side: "right" }, 
+            { id: 124, name: "Gość 124", tableName: "Stół V", side: "right" }, 
+            { id: 125, name: "Gość 125", tableName: "Stół V", side: "right" }, 
+            { id: 126, name: "Gość 126", tableName: "Stół V", side: "right" }, 
+            { id: 127, name: "Gość 127", tableName: "Stół V", side: "right" }, 
+            { id: 128, name: "Gość 128", tableName: "Stół V", side: "right" } 
+        ]; 
+
+        function renderSeats() { 
+            const container = document.getElementById("seatsContainer"); 
+            container.innerHTML = ""; 
+
+            let tableCounters = { 
+                "Stół I": { left: 0, right: 0 }, 
+                "Stół II": { left: 0, right: 0 }, 
+                "Stół III": { left: 0, right: 0 }, 
+                "Stół IV": { left: 0, right: 0 }, 
+                "Stół V": { left: 0, right: 0 } 
+            }; 
+
+            let presTopCount = 0; 
+            let presLeftCount = 0; 
+            let presRightCount = 0; 
+
+            const seatSize = 30; // średnica krzesła 
+            const gap = 10;      // odstęp między krzesłami 
+            const step = seatSize + gap; // krok 40px
+
+            const totalPresSeats = 10; // liczba krzeseł górnych (od 1 do 10)
+            
+            // Definicje szerokości i układu stołów
+            const tableWidth = 70;
+            const tableIWidth = 70;
+            const tableIIWidth = 70;
+            const tableIIIWidth = 70;
+            const tableIVWidth = 70;
+            const tableVWidth = 70;
+
+            const gap12 = 150;  // przerwa między stołem I a II
+            const gap23 = 240;  // zmniejszona o 50%
+            const gap34 = 240;  // zmniejszona o 50%
+            const gap45 = 150;  // przerwa między stołem IV a V (taka sama jak I-II)
+
+            // Układamy stoły odwrotnie (względnie wyliczając szerokość całości, aby ją wycentrować):
+            // Stół I zaczyna się w punkcie 0 (lokalnie), a kończy na tableIWidth.
+            const localTableI = 0;
+            const localTableII = localTableI + tableIWidth + gap12;
+            const localTableIII = localTableII + tableIIWidth + gap23;
+            const localTableIV = localTableIII + tableIIIWidth + gap34;
+            const localTableV = localTableIV + tableIVWidth + gap45;
+
+            // Całkowita szerokość wszystkich stołów (od lewej krawędzi stołu I do prawej krawędzi stołu V)
+            const totalTablesWidth = (localTableV + tableVWidth) - localTableI; // 1070px
+
+            // Szerokość kontenera sali to 1700px. Offset centrujący:
+            const roomWidth = 1700;
+            const offsetX = (roomWidth - totalTablesWidth) / 2; // (1700 - 1070) / 2 = 315px
+
+            // Finalne pozycje X dla stołów I-V
+            const tableILeft = offsetX + localTableI;
+            const tableIILeft = offsetX + localTableII;
+            const tableIIILeft = offsetX + localTableIII;
+            const tableIVLeft = offsetX + localTableIV;
+            const tableVLeft = offsetX + localTableV;
+
+            // Stół prezydialny rozciąga się od początku Stołu II do końca Stołu IV
+            const mainTableLeft = tableIILeft;
+            const targetRightEdge = tableIVLeft + tableIVWidth; 
+            const finalMainTableWidth = targetRightEdge - mainTableLeft; 
+            
+            const actualPresStep = (finalMainTableWidth - seatSize) / (totalPresSeats - 1);
+
+            // Najpierw obliczamy pozycje krzeseł
+            const renderedSeats = guestsData.map((g, index) => { 
+                let x = 0, y = 0; 
+
+                if (g.tableName === "Stół Prezydialny") { 
+                    if (g.side === "top") { 
+                        presTopCount++; 
+                        x = mainTableLeft + ((presTopCount - 1) * actualPresStep); 
+                        y = 35; 
+                    } else if (g.side === "left") { 
+                        presLeftCount++; 
+                        x = mainTableLeft - 40; 
+                        y = 85 + ((presLeftCount - 1) * 40); 
+                    } else if (g.side === "right") { 
+                        presRightCount++; 
+                        x = mainTableLeft + finalMainTableWidth + 10; 
+                        y = 85 + ((presRightCount - 1) * 40); 
+                    } 
+                } else { 
+                    let tableLeft = tableILeft; 
+                    let startY = 195; 
+
+                    if (g.tableName === "Stół I") { tableLeft = tableILeft; startY = 195; } 
+                    if (g.tableName === "Stół II") { tableLeft = tableIILeft; startY = 200; } 
+                    if (g.tableName === "Stół III") { tableLeft = tableIIILeft; startY = 200; } 
+                    if (g.tableName === "Stół IV") { tableLeft = tableIVLeft; startY = 200; } 
+                    if (g.tableName === "Stół V") { tableLeft = tableVLeft; startY = 195; } 
+
+                    if (g.side === "left") { 
+                        tableCounters[g.tableName].left++; 
+                        const idx = tableCounters[g.tableName].left; 
+                        x = tableLeft - 40; 
+                        y = startY + ((idx - 1) * step); 
+                    } else { 
+                        tableCounters[g.tableName].right++; 
+                        const idx = tableCounters[g.tableName].right; 
+                        x = tableLeft + 110; 
+                        y = startY + ((idx - 1) * step); 
+                    } 
+                } 
+
+                return { ...g, seatIndex: index + 1, x, y };
             });
-            globalSeatNumber++;
-        }
 
-        // 1. Stół Prezydialny: 10 od góry, 2 po lewej, 2 po prawej (razem 14)
-        for(let i=1; i<=10; i++) addGuest("Stół Prezydialny", "top");
-        for(let i=1; i<=2; i++) addGuest("Stół Prezydialny", "left");
-        for(let i=1; i<=2; i++) addGuest("Stół Prezydialny", "right");
+            // Ustawienie szerokości i pozycji stołu prezydialnego w DOM
+            const mainTableElem = document.getElementById("mainTable");
+            if (mainTableElem) {
+                mainTableElem.style.left = `${mainTableLeft}px`;
+                mainTableElem.style.width = `${finalMainTableWidth}px`;
+            }
 
-        // 2. Stół I: 17 siedzeń
-        for(let i=1; i<=17; i++) addGuest("Stół I", i <= 9 ? "left" : "right");
-
-        // 3. Stół II: 13 siedzeń
-        for(let i=1; i<=13; i++) addGuest("Stół II", i <= 7 ? "left" : "right");
-
-        // 4. Stół III: 8 siedzeń
-        for(let i=1; i<=8; i++) addGuest("Stół III", i <= 4 ? "left" : "right");
-
-        // 5. Stół IV: 8 siedzeń
-        for(let i=1; i<=8; i++) addGuest("Stół IV", i <= 4 ? "left" : "right");
-
-        // 6. Stół V: 12 siedzeń
-        for(let i=1; i<=12; i++) addGuest("Stół V", i <= 6 ? "left" : "right");
-
-        function renderSeats() {
-            const container = document.getElementById("seatsContainer");
-            container.innerHTML = "";
-
-            // Liczniki do pozycjonowania wzdłuż stołów pionowych
-            let tableCounters = {
-                "Stół I": { left: 0, right: 0 },
-                "Stół II": { left: 0, right: 0 },
-                "Stół III": { left: 0, right: 0 },
-                "Stół IV": { left: 0, right: 0 },
-                "Stół V": { left: 0, right: 0 }
+            // Wyznaczanie dynamicznej długości stołów I - V
+            let tableLimits = {
+                "Stół I": { top: 159, left: tableILeft, maxY: 0 },
+                "Stół II": { top: 164, left: tableIILeft, maxY: 0 },
+                "Stół III": { top: 164, left: tableIIILeft, maxY: 0 }, 
+                "Stół IV": { top: 164, left: tableIVLeft, maxY: 0 }, 
+                "Stół V": { top: 159, left: tableVLeft, maxY: 0 }
             };
 
-            let presTopCount = 0;
-            let presLeftCount = 0;
-            let presRightCount = 0;
-
-            guestsData.forEach(g => {
-                const seat = document.createElement("div");
-                seat.className = "seat";
-                seat.dataset.id = g.id;
-                seat.dataset.name = g.name;
-                seat.innerText = g.seatNum;
-                seat.onclick = () => selectSeat(g.id);
-
-                let x = 0, y = 0;
-
-                if (g.tableName === "Stół Prezydialny") {
-                    if (g.side === "top") {
-                        presTopCount++;
-                        const step = 910 / 11;
-                        x = 70 + (presTopCount * step);
-                        y = 35;
-                    } else if (g.side === "left") {
-                        presLeftCount++;
-                        x = 20;
-                        y = 95 + (presLeftCount === 1 ? 20 : 60);
-                    } else if (g.side === "right") {
-                        presRightCount++;
-                        x = 1030;
-                        y = 95 + (presRightCount === 1 ? 20 : 60);
-                    }
-                } else {
-                    let tableLeft = 80;
-                    if (g.tableName === "Stół II") tableLeft = 260;
-                    if (g.tableName === "Stół III") tableLeft = 440;
-                    if (g.tableName === "Stół IV") tableLeft = 620;
-                    if (g.tableName === "Stół V") tableLeft = 800;
-
-                    const countLeft = g.tableName === "Stół I" ? 9 : (g.tableName === "Stół II" ? 7 : (g.tableName === "Stół III" ? 4 : (g.tableName === "Stół IV" ? 4 : 6)));
-                    const countRight = g.tableName === "Stół I" ? 8 : (g.tableName === "Stół II" ? 6 : (g.tableName === "Stół III" ? 4 : (g.tableName === "Stół IV" ? 4 : 6)));
-
-                    if (g.side === "left") {
-                        tableCounters[g.tableName].left++;
-                        const idx = tableCounters[g.tableName].left;
-                        x = tableLeft - 40;
-                        const step = 310 / (countLeft + 1);
-                        y = 240 + (idx * step);
-                    } else {
-                        tableCounters[g.tableName].right++;
-                        const idx = tableCounters[g.tableName].right;
-                        x = tableLeft + 110;
-                        const step = 310 / (countRight + 1);
-                        y = 240 + (idx * step);
+            renderedSeats.forEach(g => {
+                if (g.tableName !== "Stół Prezydialny") {
+                    if (g.y > tableLimits[g.tableName].maxY) {
+                        tableLimits[g.tableName].maxY = g.y;
                     }
                 }
-
-                seat.style.left = `${x}px`;
-                seat.style.top = `${y}px`;
-                container.appendChild(seat);
             });
-        }
 
-        function toggleMenu() {
-            document.getElementById("searchDropdown").classList.toggle("show");
-            if(document.getElementById("searchDropdown").classList.contains("show")) {
-                document.getElementById("searchInput").focus();
-            }
-        }
+            // Ustawianie wymiarów i pozycji dla elementów DOM stołów I-V
+            for (let tName in tableLimits) {
+                let elId = "";
+                if (tName === "Stół I") elId = "tableI";
+                if (tName === "Stół II") elId = "tableII";
+                if (tName === "Stół III") elId = "tableIII";
+                if (tName === "Stół IV") elId = "tableIV";
+                if (tName === "Stół V") elId = "tableV";
 
-        window.onclick = function(event) {
-            if (!event.target.matches('.menu-btn') && !event.target.closest('.dropdown-content')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
+                const tElem = document.getElementById(elId);
+                if (tElem) {
+                    tElem.style.top = `${tableLimits[tName].top}px`;
+                    tElem.style.left = `${tableLimits[tName].left}px`;
+                    const tableHeight = (tableLimits[tName].maxY + seatSize + gap) - tableLimits[tName].top;
+                    tElem.style.height = `${tableHeight}px`;
                 }
             }
-        }
 
-        function filterGuests() {
-            const input = document.getElementById("searchInput").value.toLowerCase();
-            const listContainer = document.getElementById("suggestionsList");
-            listContainer.innerHTML = "";
+            // Rysowanie krzeseł na planszy
+            renderedSeats.forEach(g => {
+                const seat = document.createElement("div"); 
+                seat.className = "seat"; 
+                seat.dataset.id = g.id; 
+                seat.dataset.name = g.name; 
+                seat.innerText = g.seatIndex; 
+                seat.onclick = () => selectSeat(g.id); 
 
-            if (input.trim() === "") return;
+                seat.style.left = `${g.x}px`; 
+                seat.style.top = `${g.y}px`; 
+                container.appendChild(seat); 
+            }); 
+        } 
 
-            const filtered = guestsData.filter(g => g.name.toLowerCase().includes(input));
+        function toggleMenu() { 
+            document.getElementById("searchDropdown").classList.toggle("show"); 
+            if(document.getElementById("searchDropdown").classList.contains("show")) { 
+                document.getElementById("searchInput").focus(); 
+            } 
+        } 
 
-            filtered.forEach(guest => {
-                const li = document.createElement("li");
-                li.textContent = `${guest.name} (${guest.tableName})`;
-                li.onclick = function() {
-                    document.getElementById("searchInput").value = guest.name;
-                    highlightSeat(guest.id);
-                    listContainer.innerHTML = "";
-                    document.getElementById("searchDropdown").classList.remove('show');
-                };
-                listContainer.appendChild(li);
-            });
-        }
+        window.onclick = function(event) { 
+            if (!event.target.matches('.menu-btn') && !event.target.closest('.dropdown-content')) { 
+                var dropdowns = document.getElementsByClassName("dropdown-content"); 
+                for (var i = 0; i < dropdowns.length; i++) { 
+                    var openDropdown = dropdowns[i]; 
+                    if (openDropdown.classList.contains('show')) { 
+                        openDropdown.classList.remove('show'); 
+                    } 
+                } 
+            } 
+        } 
 
-        function highlightSeat(id) {
-            const seats = document.querySelectorAll('.seat');
-            seats.forEach(s => s.classList.remove('highlight'));
+        function filterGuests() { 
+            const input = document.getElementById("searchInput").value.toLowerCase(); 
+            const listContainer = document.getElementById("suggestionsList"); 
+            listContainer.innerHTML = ""; 
 
-            const targetSeat = document.querySelector(`.seat[data-id="${id}"]`);
-            if (targetSeat) {
-                targetSeat.classList.add('highlight');
-                targetSeat.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                setTimeout(() => {
-                    targetSeat.classList.remove('highlight');
-                }, 4000);
-            }
-        }
+            if (input.trim() === "") return; 
 
-        function selectSeat(id) {
-            highlightSeat(id);
-        }
+            const filtered = guestsData.filter(g => g.name.toLowerCase().includes(input)); 
 
-        window.onload = renderSeats;
-    </script>
-</body>
+            filtered.forEach(guest => { 
+                const li = document.createElement("li"); 
+                li.textContent = `${guest.name} (${guest.tableName})`; 
+                li.onclick = function() { 
+                    document.getElementById("searchInput").value = guest.name; 
+                    highlightSeat(guest.id); 
+                    listContainer.innerHTML = ""; 
+                    document.getElementById("searchDropdown").classList.remove('show'); 
+                }; 
+                listContainer.appendChild(li); 
+            }); 
+        } 
+
+        function highlightSeat(id) { 
+            const seats = document.querySelectorAll('.seat'); 
+            seats.forEach(s => s.classList.remove('highlight')); 
+
+            const targetSeat = document.querySelector(`.seat[data-id="${id}"]`); 
+            if (targetSeat) { 
+                targetSeat.classList.add('highlight'); 
+                targetSeat.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+                 
+                setTimeout(() => { 
+                    targetSeat.classList.remove('highlight'); 
+                }, 4000); 
+            } 
+        } 
+
+        function selectSeat(id) { 
+            highlightSeat(id); 
+        } 
+
+        window.onload = renderSeats; 
+    </script> 
+</body> 
 </html>
