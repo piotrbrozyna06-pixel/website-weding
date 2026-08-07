@@ -2,7 +2,8 @@
 <html lang="pl">  
 <head>  
     <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <!-- Automatyczne dopasowanie całej makiety 1700px do ekranu telefonu -->
+    <meta name="viewport" content="width=1700, initial-scale=0.1, maximum-scale=5.0, user-scalable=yes">  
     <title>Monika oraz Jakub - Plan Stołów</title>  
 
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">  
@@ -13,7 +14,7 @@
     <!-- Główny kontener całej planszy (1700px) -->
     <div class="page-wrapper">
 
-        <!-- Menu rozwijane z wyszukiwarką (przypięte do planszy) -->  
+        <!-- Menu rozwijane z wyszukiwarką -->  
         <div class="menu-container">  
             <button class="menu-btn" onclick="toggleMenu()">🔍 SZUKAJ GOŚCIA</button>  
             <div id="searchDropdown" class="dropdown-content">  
@@ -342,14 +343,6 @@
             });  
         }  
 
-        // Wyśrodkowanie widoku mobilnego na środkowym Stole III
-        function centerOnMobile() {
-            const tableIII = document.getElementById("tableIII");
-            if (tableIII) {
-                tableIII.scrollIntoView({ block: "start", inline: "center" });
-            }
-        }
-
         function toggleMenu() {  
             document.getElementById("searchDropdown").classList.toggle("show");  
             if(document.getElementById("searchDropdown").classList.contains("show")) {  
@@ -412,7 +405,6 @@
 
         window.onload = function() {
             renderSeats();
-            setTimeout(centerOnMobile, 100);
         };
     </script>  
 </body>  
