@@ -2,7 +2,6 @@
 <html lang="pl">  
 <head>  
     <meta charset="UTF-8">  
-    <!-- Automatyczne dopasowanie całej makiety 1700px do ekranu telefonu -->
     <meta name="viewport" content="width=1700, initial-scale=0.1, maximum-scale=5.0, user-scalable=yes">  
     <title>Monika oraz Jakub - Plan Stołów</title>  
 
@@ -11,10 +10,8 @@
 </head>  
 <body>  
 
-    <!-- Główny kontener całej planszy (1700px) -->
     <div class="page-wrapper">
 
-        <!-- Menu rozwijane z wyszukiwarką -->  
         <div class="menu-container">  
             <button class="menu-btn" onclick="toggleMenu()">🔍 SZUKAJ GOŚCIA</button>  
             <div id="searchDropdown" class="dropdown-content">  
@@ -23,20 +20,16 @@
             </div>  
         </div>  
 
-        <!-- Nagłówek strony -->  
         <header>  
             <h1>Monika <span>oraz</span> Jakub</h1>  
             <p class="subtitle">PLAN STOŁÓW</p>
         </header>  
 
-        <!-- Plan stołów i gości -->  
         <div class="room" id="roomContainer" style="height: 1200px; width: 1700px; margin: 0 auto; position: relative;">  
-            <!-- Stół prezydialny -->  
             <div class="table-rect main-table" id="mainTable" style="top: 80px; height: 80px; z-index: 1;">
                 Stół Prezydialny
             </div>  
               
-            <!-- Stoły I-V -->  
             <div class="table-vert" id="tableI" style="width: 70px;">I</div>  
             <div class="table-vert" id="tableII" style="width: 70px; border-top: none; border-top-left-radius: 0; border-top-right-radius: 0; z-index: 2;">II</div>  
             <div class="table-vert" id="tableIII" style="width: 70px; border-top: none; border-top-left-radius: 0; border-top-right-radius: 0; z-index: 2;">III</div>  
@@ -219,10 +212,11 @@
             const tableIVWidth = 70; 
             const tableVWidth = 70; 
 
-            const gap12 = 150;  
-            const gap23 = 240;  
-            const gap34 = 240;  
-            const gap45 = 150;  
+            // Ustawiono odstępy między stołami tak, aby krzesła sąsiednich stołów miały dokładnie 30px przerwy
+            const gap12 = 285;  
+            const gap23 = 285;  
+            const gap34 = 285;  
+            const gap45 = 285;  
 
             const localTableI = 0; 
             const localTableII = localTableI + tableIWidth + gap12; 
@@ -257,11 +251,11 @@
                         y = 35;  
                     } else if (g.side === "left") {  
                         presLeftCount++;  
-                        x = mainTableLeft - 40;  
+                        x = mainTableLeft - 50;  
                         y = 85 + ((presLeftCount - 1) * 40);  
                     } else if (g.side === "right") {  
                         presRightCount++;  
-                        x = mainTableLeft + finalMainTableWidth + 10;  
+                        x = mainTableLeft + finalMainTableWidth + 20;  
                         y = 85 + ((presRightCount - 1) * 40);  
                     }  
                 } else {  
@@ -277,12 +271,12 @@
                     if (g.side === "left") {  
                         tableCounters[g.tableName].left++;  
                         const idx = tableCounters[g.tableName].left;  
-                        x = tableLeft - 40;  
+                        x = tableLeft - 50;  
                         y = startY + ((idx - 1) * step);  
                     } else {  
                         tableCounters[g.tableName].right++;  
                         const idx = tableCounters[g.tableName].right;  
-                        x = tableLeft + 110;  
+                        x = tableLeft + 120;  
                         y = startY + ((idx - 1) * step);  
                     }  
                 }  
@@ -332,9 +326,11 @@
             renderedSeats.forEach(g => { 
                 const seat = document.createElement("div");  
                 seat.className = "seat";  
+                if (g.tableName === "Stół Prezydialny" && g.side === "top") {
+                    seat.classList.add("seat-top");
+                }
                 seat.dataset.id = g.id;  
-                seat.dataset.name = g.name;  
-                seat.innerText = g.seatIndex;  
+                seat.innerText = g.name;  
                 seat.onclick = () => selectSeat(g.id);  
 
                 seat.style.left = `${g.x}px`;  
