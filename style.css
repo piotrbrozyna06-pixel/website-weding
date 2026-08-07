@@ -16,12 +16,12 @@ html, body {
     color: var(--text-color); 
     font-family: 'Montserrat', sans-serif; 
     min-height: 100vh; 
-    width: 100%;
 } 
 
-/* Kontener otaczający cały plan wraz z nagłówkiem */
+/* Główny kontener całej planszy */
 .page-wrapper {
-    min-width: 1700px;
+    position: relative;
+    width: 1700px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -62,11 +62,11 @@ h1 span {
     margin-top: 10px;
 }
 
-/* Wyszukiwarka zawieszona na ekranie */
+/* Wyszukiwarka przypięta absolutnie do planszy (porusza się razem z całą stroną) */
 .menu-container { 
-    position: fixed; 
-    top: 20px; 
-    left: 20px; 
+    position: absolute; 
+    top: 30px; 
+    left: 40px; 
     z-index: 1000; 
 } 
 
@@ -87,7 +87,6 @@ h1 span {
 
 .menu-btn:hover { 
     background-color: #333; 
-    transform: translateY(-1px);
 } 
 
 .dropdown-content { 
@@ -177,7 +176,7 @@ h1 span {
     z-index: 2; 
 } 
 
-/* Miejsca siedzące (krzesełka) */ 
+/* Miejsca siedzące */ 
 .seat { 
     position: absolute; 
     width: 30px; 
@@ -236,25 +235,4 @@ h1 span {
     opacity: 1; 
     visibility: visible; 
     transform: translateX(-50%) translateY(0); 
-} 
-
-/* Optymalizacja przycisku menu dla mniejszych ekranów mobilnych */
-@media (max-width: 768px) {
-    .menu-container {
-        top: 15px;
-        left: 15px;
-    }
-
-    .menu-btn {
-        padding: 10px 14px;
-        font-size: 0.75rem;
-    }
-
-    .dropdown-content {
-        position: fixed;
-        top: 60px;
-        left: 15px;
-        right: 15px;
-        min-width: auto;
-    }
 }
