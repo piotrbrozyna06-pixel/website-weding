@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=2400, initial-scale=0.1, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=3400, initial-scale=0.1, maximum-scale=5.0, user-scalable=yes">
     <title>Monika i Kuba - Plan Stołów</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -29,12 +29,12 @@
 
         .page-wrapper {
             position: relative;
-            width: 2400px; 
+            width: 3400px; 
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 50px;
+            padding-bottom: 200px;
         }
 
         header {
@@ -73,9 +73,8 @@
 
         .menu-container {
             position: absolute;
-            top: 30px;
-            left: 40px;
             z-index: 1000;
+            transform: translateX(-50%);
         }
 
         .menu-btn {
@@ -91,6 +90,7 @@
             transition: all 0.3s ease;
             border-radius: 4px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            white-space: nowrap;
         }
 
         .menu-btn:hover {
@@ -101,7 +101,8 @@
             display: none;
             position: absolute;
             top: 50px;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: #f4f0eb;
             min-width: 300px;
             box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
@@ -149,8 +150,8 @@
 
         .room {
             position: relative;
-            width: 2400px; 
-            height: 1200px;
+            width: 3400px; 
+            height: 1400px;
             margin-top: 0px;
         }
 
@@ -232,7 +233,7 @@
 
     <div class="page-wrapper">
 
-        <div class="menu-container">
+        <div class="menu-container" id="menuContainer">
             <button class="menu-btn" onclick="toggleMenu()">🔍 SZUKAJ GOŚCIA</button>
             <div id="searchDropdown" class="dropdown-content">
                 <input type="text" id="searchInput" class="search-input" placeholder="Wpisz imię lub nazwisko..." oninput="filterGuests()">
@@ -262,39 +263,39 @@
 
     <script>
         const guestsData = [
-            // --- STÓŁ PREZYDIALNY (14 miejsc) ---
-            { id: 1, name: "Gość 1", tableName: "Stół Prezydialny", side: "top" },
-            { id: 2, name: "Gość 2", tableName: "Stół Prezydialny", side: "top" },
-            { id: 3, name: "Gość 3", tableName: "Stół Prezydialny", side: "top" },
-            { id: 4, name: "Gość 4", tableName: "Stół Prezydialny", side: "top" },
-            { id: 5, name: "Gość 5", tableName: "Stół Prezydialny", side: "top" },
-            { id: 6, name: "Gość 6", tableName: "Stół Prezydialny", side: "top" },
-            { id: 7, name: "Gość 7", tableName: "Stół Prezydialny", side: "top" },
-            { id: 8, name: "Gość 8", tableName: "Stół Prezydialny", side: "top" },
-            { id: 9, name: "Gość 9", tableName: "Stół Prezydialny", side: "top" },
-            { id: 10, name: "Gość 10", tableName: "Stół Prezydialny", side: "top" },
-            { id: 11, name: "Gość 11", tableName: "Stół Prezydialny", side: "left" },
-            { id: 12, name: "Gość 12", tableName: "Stół Prezydialny", side: "left" },
-            { id: 13, name: "Gość 13", tableName: "Stół Prezydialny", side: "right" },
-            { id: 14, name: "Gość 14", tableName: "Stół Prezydialny", side: "right" },
+            // --- STÓŁ PREZYDIALNY ---
+            { id: 1, name: "Piotr Brożyna", tableName: "Stół Prezydialny", side: "top" },
+            { id: 2, name: "Oliwia Majdzińska", tableName: "Stół Prezydialny", side: "top" },
+            { id: 3, name: "Jan Dyśko", tableName: "Stół Prezydialny", side: "top" },
+            { id: 4, name: "Karolina Kozak-Dyśko", tableName: "Stół Prezydialny", side: "top" },
+            { id: 5, name: "Panna Młoda", tableName: "Stół Prezydialny", side: "top" },
+            { id: 6, name: "Pan Młody", tableName: "Stół Prezydialny", side: "top" },
+            { id: 7, name: "Dawid Dziuda", tableName: "Stół Prezydialny", side: "top" },
+            { id: 8, name: "Zuzanna Siwiec", tableName: "Stół Prezydialny", side: "top" },
+            { id: 9, name: "Krzysztof Felczak", tableName: "Stół Prezydialny", side: "top" },
+            { id: 10, name: "Jakub Szczepanik", tableName: "Stół Prezydialny", side: "top" },
+            { id: 11, name: "Karolina Wasilewska", tableName: "Stół Prezydialny", side: "left" },
+            { id: 12, name: "Maciej Workert", tableName: "Stół Prezydialny", side: "left" },
+            { id: 13, name: "Weronika Kazimierczak", tableName: "Stół Prezydialny", side: "right" },
+            { id: 14, name: "Karol Machnicki", tableName: "Stół Prezydialny", side: "right" },
 
             // --- STÓŁ I ---
             { id: 15, name: "Łukasz Lotto", tableName: "Stół I", side: "left" },
             { id: 16, name: "Hania Lotto", tableName: "Stół I", side: "left" },
             { id: 17, name: "Ania Lotto", tableName: "Stół I", side: "left" },
-            { id: 18, name: "Mama Panny Młodej", tableName: "Stół I", side: "left" },
-            { id: 19, name: "Tata Panny Młodej", tableName: "Stół I", side: "left" },
-            { id: 20, name: "Marcin Ochłanek", tableName: "Stół I", side: "left" },
-            { id: 21, name: "Paweł Ochłanek", tableName: "Stół I", side: "left" },
-            { id: 22, name: "Wojciech Ochłanek", tableName: "Stół I", side: "left" },
-            { id: 23, name: "Ewa Adamczewska-Ochłanek", tableName: "Stół I", side: "left" },
+            { id: 18, name: "Joanna Brożyna", tableName: "Stół I", side: "left" },
+            { id: 19, name: "Krzysztof Brożyna", tableName: "Stół I", side: "left" },
+            { id: 20, name: "Marcin Ochlanek", tableName: "Stół I", side: "left" },
+            { id: 21, name: "Paweł Ochlanek", tableName: "Stół I", side: "left" },
+            { id: 22, name: "Wojciech Ochlanek", tableName: "Stół I", side: "left" },
+            { id: 23, name: "Ewa Adamczewska-Ochlanek", tableName: "Stół I", side: "left" },
             { id: 24, name: "Emilia Brożyna", tableName: "Stół I", side: "left" },
             { id: 25, name: "Aleksandra Brożyna", tableName: "Stół I", side: "left" },
             { id: 26, name: "Jan Brożyna", tableName: "Stół I", side: "left" },
             { id: 27, name: "Grzegorz Brożyna", tableName: "Stół I", side: "left" },
-            { id: 28, name: "Babcia Panny Młodej", tableName: "Stół I", side: "left" },
-            { id: 29, name: "Babcia Panny Młodej", tableName: "Stół I", side: "left" },
-            { id: 30, name: "Dziadek Panny Młodej", tableName: "Stół I", side: "left" },
+            { id: 28, name: "Teresa Brożyna", tableName: "Stół I", side: "left" },
+            { id: 29, name: "Zofia Szczepańska", tableName: "Stół I", side: "left" },
+            { id: 30, name: "Marian Szczepański", tableName: "Stół I", side: "left" },
             { id: 31, name: "Jerzy Adamczewski", tableName: "Stół I", side: "left" },
             { id: 32, name: "Robert Łuszczyński", tableName: "Stół I", side: "right" },
             { id: 33, name: "Edyta Łuszczyńska", tableName: "Stół I", side: "right" },
@@ -442,7 +443,7 @@
 
             const totalTablesWidth = (localTableV + tableVWidth) - localTableI;
 
-            const roomWidth = 2400; 
+            const roomWidth = 3400; 
             const offsetX = (roomWidth - totalTablesWidth) / 2;
 
             const tableILeft = offsetX + localTableI;
@@ -481,9 +482,9 @@
                     let startY = 185;
 
                     if (g.tableName === "Stół I") { tableLeft = tableILeft; startY = 185; }
-                    if (g.tableName === "Stół II") { tableLeft = tableIILeft; startY = 205; }
-                    if (g.tableName === "Stół III") { tableLeft = tableIIILeft; startY = 205; }
-                    if (g.tableName === "Stół IV") { tableLeft = tableIVLeft; startY = 205; }
+                    if (g.tableName === "Stół II") { tableLeft = tableIILeft; startY = 176; }
+                    if (g.tableName === "Stół III") { tableLeft = tableIIILeft; startY = 176; }
+                    if (g.tableName === "Stół IV") { tableLeft = tableIVLeft; startY = 176; }
                     if (g.tableName === "Stół V") { tableLeft = tableVLeft; startY = 185; }
 
                     if (g.side === "left") {
@@ -510,9 +511,9 @@
 
             let tableLimits = {
                 "Stół I": { top: 149, left: tableILeft, maxY: 0 },
-                "Stół II": { top: 169, left: tableIILeft, maxY: 0 },
-                "Stół III": { top: 169, left: tableIIILeft, maxY: 0 },
-                "Stół IV": { top: 169, left: tableIVLeft, maxY: 0 },
+                "Stół II": { top: 140, left: tableIILeft, maxY: 0 },
+                "Stół III": { top: 140, left: tableIIILeft, maxY: 0 },
+                "Stół IV": { top: 140, left: tableIVLeft, maxY: 0 },
                 "Stół V": { top: 149, left: tableVLeft, maxY: 0 }
             };
 
@@ -539,6 +540,14 @@
                     const tableHeight = (tableLimits[tName].maxY + seatHeight + gap) - tableLimits[tName].top;
                     tElem.style.height = `${tableHeight}px`;
                 }
+            }
+
+            const tableIIIHeight = (tableLimits["Stół III"].maxY + seatHeight + gap) - tableLimits["Stół III"].top;
+            const tableIIIBottom = tableLimits["Stół III"].top + tableIIIHeight;
+            const menuContainer = document.getElementById("menuContainer");
+            if (menuContainer) {
+                menuContainer.style.left = `${tableIIILeft + (tableIIIWidth / 2)}px`;
+                menuContainer.style.top = `${tableIIIBottom + 200}px`;
             }
 
             renderedSeats.forEach(g => {
@@ -619,6 +628,10 @@
 
         window.onload = function() {
             renderSeats();
+            
+            const roomWidth = 3400;
+            const scrollX = (roomWidth - window.innerWidth) / 2;
+            window.scrollTo({ left: scrollX > 0 ? scrollX : 0, top: 0, behavior: 'instant' });
         };
     </script>
 </body>
