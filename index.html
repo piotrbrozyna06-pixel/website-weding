@@ -277,7 +277,8 @@
             { id: 11, name: "Karolina Wasilewska", tableName: "Stół Prezydialny", side: "left" },
             { id: 12, name: "Maciej Workert", tableName: "Stół Prezydialny", side: "left" },
             { id: 13, name: "Weronika Kazimierczak", tableName: "Stół Prezydialny", side: "right" },
-            { id: 14, name: "Karol Machnicki", tableName: "Stół IV", side: "right" },
+            // Zmiana tutaj: dodano właściwość searchTable
+            { id: 14, name: "Karol Machnicki", tableName: "Stół Prezydialny", side: "right", searchTable: "Stół IV" },
 
             // --- STÓŁ I ---
             { id: 15, name: "Łukasz Lotto", tableName: "Stół I", side: "left" },
@@ -329,7 +330,7 @@
             { id: 59, name: "Karolina Rogulka", tableName: "Stół II", side: "left" },
             { id: 60, name: "Marcin Kębłowski", tableName: "Stół II", side: "left" },
             { id: 61, name: "Jakub Stępień", tableName: "Stół II", side: "right" },
-            { id: 62, name: "Zuzanna Przybyłek-Stępień", tableName: "Stół II", side: "right" },
+            { id: 62, name: "Zuzanna Przybyłek - Stępień", tableName: "Stół II", side: "right" },
             { id: 63, name: "Natalia Rechcińska", tableName: "Stół II", side: "right" },
             { id: 64, name: "Michał Galus", tableName: "Stół II", side: "right" },
             { id: 65, name: "Dominik Dzierżawski", tableName: "Stół II", side: "right" },
@@ -596,7 +597,9 @@
 
             filtered.forEach(guest => {
                 const li = document.createElement("li");
-                li.textContent = `${guest.name} (${guest.tableName})`;
+                // Zmiana tutaj: sprawdzamy, czy gość ma ustawione searchTable, jak nie to używamy tableName
+                const tableNameToDisplay = guest.searchTable || guest.tableName; 
+                li.textContent = `${guest.name} (${tableNameToDisplay})`;
                 li.onclick = function() {
                     document.getElementById("searchInput").value = guest.name;
                     highlightSeat(guest.id);
